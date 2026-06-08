@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wilben - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>Wilben.in</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#images">Images</a></li>
+                    <li><a href="#documents">Documents</a></li>
+                    <li><a href="#news">News</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Menu</h2>
+            <button class="close-btn" id="closeBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#images"><i class="fas fa-images"></i> Images</a></li>
+                <li><a href="#documents"><i class="fas fa-file-alt"></i> Documents</a></li>
+                <li><a href="#news"><i class="fas fa-newspaper"></i> News</a></li>
+                <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <p>&copy; 2026 Wilben.in</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h2>Welcome to Wilben.in</h2>
+                <p>Discover images, documents, and latest news</p>
+                <button class="cta-btn">Get Started</button>
+            </div>
+        </section>
+
+        <!-- Images Section -->
+        <section id="images" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-images"></i> Images Gallery</h2>
+            </div>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <p>Image 1</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <p>Image 2</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <p>Image 3</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <p>Image 4</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documents Section -->
+        <section id="documents" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> Documents</h2>
+            </div>
+            <div class="documents-list">
+                <div class="document-item">
+                    <i class="fas fa-file-pdf"></i>
+                    <div class="document-info">
+                        <h3>Document 1</h3>
+                        <p>PDF Document</p>
+                    </div>
+                </div>
+                <div class="document-item">
+                    <i class="fas fa-file-word"></i>
+                    <div class="document-info">
+                        <h3>Document 2</h3>
+                        <p>Word Document</p>
+                    </div>
+                </div>
+                <div class="document-item">
+                    <i class="fas fa-file-excel"></i>
+                    <div class="document-info">
+                        <h3>Document 3</h3>
+                        <p>Excel Spreadsheet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-newspaper"></i> Latest News</h2>
+            </div>
+            <div class="news-list">
+                <article class="news-item">
+                    <h3>Breaking News Title</h3>
+                    <p class="news-date"><i class="fas fa-calendar"></i> June 8, 2026</p>
+                    <p>This is a sample news article. Replace with your actual news content. Stay tuned for more updates!</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
+                <article class="news-item">
+                    <h3>Another News Story</h3>
+                    <p class="news-date"><i class="fas fa-calendar"></i> June 7, 2026</p>
+                    <p>Another exciting update about Wilben.in. Check back regularly for fresh content and announcements.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
+                <article class="news-item">
+                    <h3>Important Announcement</h3>
+                    <p class="news-date"><i class="fas fa-calendar"></i> June 6, 2026</p>
+                    <p>Important information for our users. Make sure to read this announcement for the latest updates.</p>
+                    <a href="#" class="read-more">Read More →</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <p>Wilben.in is your destination for images, documents, and news.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#images">Images</a></li>
+                    <li><a href="#documents">Documents</a></li>
+                    <li><a href="#news">News</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Wilben.in. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Overlay for sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
