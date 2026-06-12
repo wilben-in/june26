@@ -69,6 +69,34 @@ body{
     letter-spacing:3px;
 }
 
+	/* Ensures the header spaces the logo and hamburger button correctly */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Adjust padding as needed for your design */
+}
+
+/* Aligns the favicon image and text horizontally */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* This creates a clean space between the icon and the text */
+}
+
+/* Automatically scales the favicon to match the exact height of your text */
+.logo-favicon {
+    height: 1.2em; /* 'em' matches the exact font size of "WILBEN" */
+    width: auto;   /* Keeps the image aspect ratio perfect */
+    display: block;
+}
+
+/* Optional: Ensures your logo text looks clean next to the icon */
+.logo-text {
+    font-weight: bold;
+    /* add your font-size here if needed, e.g., font-size: 24px; */
+}
+
 	
 .menu-toggle{
 
@@ -451,12 +479,16 @@ body{
 <body>
 
 <header class="top-header" id="topHeader">
- <div class="logo">
-        W I L B E N
+
+    <div class="logo">
+        <img src="favicon.jpeg" alt="Wilben Logo" class="logo-favicon">
+        <span class="logo-text">W I L B E N</span>
     </div>
+
     <button id="menuToggle" class="menu-toggle">
         ☰
     </button>
+
 </header> 
 
 
