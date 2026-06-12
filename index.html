@@ -1,192 +1,712 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wilben - Home</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Header with Navigation -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <h1>Wilben.in</h1>
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#images">Images</a></li>
-                    <li><a href="#documents">Documents</a></li>
-                    <li><a href="#news">News</a></li>
-                </ul>
-            </nav>
-            <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wilben.in</title>
 
-    <!-- Sidebar -->
+<style>
+
+/* =========================
+   THEME
+========================= */
+
+:root{
+    --dark-blue:#0B2545;
+    --dark-green:#134E4A;
+    --white:#FFFFFF;
+    --light-gray:#F4F4F4;
+    --border:#D6D6D6;
+}
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Trebuchet MS", Trebuchet, Arial, sans-serif;
+    background:var(--light-gray);
+    color:#222;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.top-header{
+
+    height:70px;
+
+    background:var(--dark-blue);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 20px;
+
+    /* Desktop behavior: normal absolute placement that scrolls naturally */
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    /* Smooth transition for when it hides/shows on mobile */
+    transition: transform 0.3s ease; 
+}
+
+.logo{
+    color:white;
+    font-size:32px;
+    font-weight:bold;
+    letter-spacing:3px;
+}
+
+.menu-toggle{
+
+    background:none;
+    border:none;
+
+    color:white;
+
+    font-size:32px;
+
+    cursor:pointer;
+}
+
+/* Hide hamburger on desktop */
+.menu-toggle {
+    display: none;
+}
+
+/* Show hamburger only on mobile */
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: block;
+    }
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.main-container{
+    display:flex;
+    min-height:calc(100vh - 70px);
+    margin-top:70px; 
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+
+    width:260px;
+
+    background:var(--dark-green);
+
+    color:white;
+
+    padding:20px;
+
+    transition:0.3s ease;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    margin-bottom:6px;
+}
+
+/* =========================
+   SIDEBAR COLLAPSIBLE
+========================= */
+
+.sidebar-btn{
+
+    width:100%;
+
+    background:none;
+
+    border:none;
+
+    color:white;
+
+    text-align:left;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    padding:11px;
+
+    border-radius:2px;
+    
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.sidebar-btn:hover{
+    background:rgba(255,255,255,.12);
+}
+
+.sidebar-submenu{
+
+    display:none;
+
+    margin-left:15px;
+    margin-top: 8px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:2px;
+
+    overflow:hidden;
+}
+
+.sidebar-submenu li{
+
+    padding:9px 11px;
+
+    font-size:14px;
+}
+
+/* Styling for the link to look like regular text */
+.sidebar-submenu a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sidebar-link{
+
+    padding:12px;
+
+    border-radius:2px;
+
+    cursor:pointer;
+}
+
+.sidebar-link:hover{
+    background:rgba(255,255,255,.12);
+}
+
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+#overlay{
+
+    display:none;
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.5);
+
+    z-index:998;
+}
+
+#overlay.show{
+    display:block;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content-area{
+
+    flex:1;
+
+    padding:20px;
+
+    padding-bottom:70px;
+}
+
+/* =========================
+   CAROUSEL
+========================= */
+
+.carousel-container{
+
+    position:relative;
+
+    width:100%;
+
+    height:350px;
+
+    overflow:hidden;
+
+    border-radius:2px;
+
+    background:white;
+
+    border:1px solid var(--border);
+}
+
+.carousel-slide{
+
+    display:none;
+
+    width:100%;
+    height:100%;
+}
+
+.carousel-slide.active{
+    display:block;
+}
+
+.carousel-slide img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.carousel-btn{
+
+    position:absolute;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    background:rgba(0,0,0,.5);
+
+    color:white;
+
+    border:none;
+
+    padding:10px 14px;
+
+    cursor:pointer;
+
+    font-size:18px;
+}
+
+.prev{
+    left:10px;
+}
+
+.next{
+    right:10px;
+}
+
+/* =========================
+   WIDGETS
+========================= */
+
+.widgets-section{
+
+    margin-top:25px;
+
+    margin-bottom:60px;
+}
+
+.widgets-section h2{
+
+    color:var(--dark-blue);
+
+    margin-bottom:15px;
+}
+
+.widget-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+}
+
+.widget-box{
+
+    width:100%;
+
+    min-height:300px;
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:2px;
+
+    padding:25px;
+}
+
+.widget-box h3{
+
+    color:var(--dark-green);
+
+    margin-bottom:12px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    background:var(--dark-blue);
+
+    color:white;
+
+    text-align:center;
+
+    padding:18px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .top-header {
+        position: fixed; 
+    }
+
+    /* Class used by JavaScript to push header out of viewport on mobile scroll down */
+    .top-header.hide-header {
+        transform: translateY(-70px); 
+    }
+
+    .sidebar{
+
+        position:fixed;
+
+        top:0;
+        left:-280px;
+
+        width:260px;
+        height:100vh;
+
+        z-index:999;
+
+        overflow-y:auto;
+        padding-top: 80px; 
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    .content-area{
+        width:100%;
+        padding:15px;
+        padding-bottom:70px;
+    }
+
+    .carousel-container{
+        height:220px;
+    }
+
+    .widget-box{
+        min-height:220px;
+    }
+
+    .logo{
+        font-size:24px;
+    }
+}
+
+/* SIDE BAR ARROW ROTATION */
+.arrow{
+    display: inline-block;
+    transition:transform 0.3s ease;
+}
+
+/* Rotated state */
+.arrow.rotate{
+    transform:rotate(90deg);
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="top-header" id="topHeader">
+
+    <div class="logo">
+        W I L B E N
+    </div>
+
+    <button id="menuToggle" class="menu-toggle">
+        ☰
+    </button>
+
+</header>
+
+<div id="overlay"></div>
+
+<div class="main-container">
+
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>Menu</h2>
-            <button class="close-btn" id="closeBtn">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#images"><i class="fas fa-images"></i> Images</a></li>
-                <li><a href="#documents"><i class="fas fa-file-alt"></i> Documents</a></li>
-                <li><a href="#news"><i class="fas fa-newspaper"></i> News</a></li>
-                <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
-            </ul>
-        </nav>
-        <div class="sidebar-footer">
-            <p>&copy; 2026 Wilben.in</p>
-        </div>
+
+        <ul>
+
+            <li>
+
+                <button class="sidebar-btn">
+    STUDY MATERIALS
+    <span class="arrow">▶</span>
+</button>
+
+                <ul class="sidebar-submenu">
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>JAVASCRIPT</li>
+		    <li>PYTHON</li>
+                </ul>
+
+            </li>
+
+            <li>
+
+                <button class="sidebar-btn">
+    E BOOKS
+    <span class="arrow">▶</span>
+</button>
+
+                <ul class="sidebar-submenu">
+                    <li>PROGRAMMING</li>
+                    <li>ELECTRONICS</li>
+                    <li>MATHEMATICS</li>
+                </ul>
+
+            </li>
+
+            <li>
+
+                <button class="sidebar-btn">
+    PROJECTS
+    <span class="arrow">▶</span>
+</button>
+
+                <ul class="sidebar-submenu">
+                    <li><a href="https://www.menora.in" target="_blank">M E N O R A</a></li>
+                    <li>EXPERIMENTS</li>
+                    <li>AI CODES</li>
+                </ul>
+
+            </li>
+
+            <li class="sidebar-link">COURSES</li>
+            <li class="sidebar-link">TOOLS</li>
+            <li class="sidebar-link">CAREER</li>
+	    <li class="sidebar-link">ABOUT</li>
+
+        </ul>
+
     </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h2>Welcome to Wilben.in</h2>
-                <p>Discover images, documents, and latest news</p>
-                <button class="cta-btn">Get Started</button>
+    <main class="content-area">
+
+        <section class="carousel-container">
+
+            <div class="carousel-slide active">
+                <img src="https://picsum.photos/id/1015/1200/500" alt="">
             </div>
+
+            <div class="carousel-slide">
+                <img src="https://picsum.photos/id/1043/1200/500" alt="">
+            </div>
+
+            <div class="carousel-slide">
+                <img src="https://picsum.photos/id/1050/1200/500" alt="">
+            </div>
+
+            <button class="carousel-btn prev">&#10094;</button>
+            <button class="carousel-btn next">&#10095;</button>
+
         </section>
 
-        <!-- Images Section -->
-        <section id="images" class="section">
-            <div class="section-header">
-                <h2><i class="fas fa-images"></i> Images Gallery</h2>
+        <section class="widgets-section">
+
+            <h2>Future Widgets Area</h2>
+
+            <div class="widget-container">
+
+                <div class="widget-box">
+                 <h3>My dear friend, It is good that you help the brothers and sisters, even those you do not know.<br>3 John 1:5</h3>
+                    <p>This site is under construction. Thank you for your patience</p>
+   
+                </div>
+
+                <div class="widget-box">
+                    <h3>No one has ever seen this.<br> No one has ever heard about it.<br> No one has ever imagined what God has prepared for those who love him. <br>1 Corinthians 2:9</h3>
+                   <p></p>
+                </div>
+
+                <div class="widget-box">
+                    <h3>In a large house, there are not only things made of gold and silver, but also things made of wood and clay. <br>Some things are used for special purposes and other are made for ordinary jobs. <br>2 Timothy 2:19</h3>
+                    <p>Reserved for future content.</p>
+                </div>
+
+                <div class="widget-box">
+                    <h3>My brothers and sisters, when you have many kinds of troubles, you should be full of joy,<br>because you know that these troubles test your faith, and this will give you patience, presercerance and endurance.<br>James 1:2,3</h3>
+                    <p></p>
+                </div>
+
             </div>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <p>Image 1</p>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <p>Image 2</p>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <p>Image 3</p>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-placeholder">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <p>Image 4</p>
-                </div>
-            </div>
+
         </section>
 
-        <!-- Documents Section -->
-        <section id="documents" class="section">
-            <div class="section-header">
-                <h2><i class="fas fa-file-alt"></i> Documents</h2>
-            </div>
-            <div class="documents-list">
-                <div class="document-item">
-                    <i class="fas fa-file-pdf"></i>
-                    <div class="document-info">
-                        <h3>Document 1</h3>
-                        <p>PDF Document</p>
-                    </div>
-                </div>
-                <div class="document-item">
-                    <i class="fas fa-file-word"></i>
-                    <div class="document-info">
-                        <h3>Document 2</h3>
-                        <p>Word Document</p>
-                    </div>
-                </div>
-                <div class="document-item">
-                    <i class="fas fa-file-excel"></i>
-                    <div class="document-info">
-                        <h3>Document 3</h3>
-                        <p>Excel Spreadsheet</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- News Section -->
-        <section id="news" class="section">
-            <div class="section-header">
-                <h2><i class="fas fa-newspaper"></i> Latest News</h2>
-            </div>
-            <div class="news-list">
-                <article class="news-item">
-                    <h3>Breaking News Title</h3>
-                    <p class="news-date"><i class="fas fa-calendar"></i> June 8, 2026</p>
-                    <p>This is a sample news article. Replace with your actual news content. Stay tuned for more updates!</p>
-                    <a href="#" class="read-more">Read More →</a>
-                </article>
-                <article class="news-item">
-                    <h3>Another News Story</h3>
-                    <p class="news-date"><i class="fas fa-calendar"></i> June 7, 2026</p>
-                    <p>Another exciting update about Wilben.in. Check back regularly for fresh content and announcements.</p>
-                    <a href="#" class="read-more">Read More →</a>
-                </article>
-                <article class="news-item">
-                    <h3>Important Announcement</h3>
-                    <p class="news-date"><i class="fas fa-calendar"></i> June 6, 2026</p>
-                    <p>Important information for our users. Make sure to read this announcement for the latest updates.</p>
-                    <a href="#" class="read-more">Read More →</a>
-                </article>
-            </div>
-        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About</h4>
-                <p>Wilben.in is your destination for images, documents, and news.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#images">Images</a></li>
-                    <li><a href="#documents">Documents</a></li>
-                    <li><a href="#news">News</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Wilben.in. All rights reserved.</p>
-        </div>
-    </footer>
+</div>
 
-    <!-- Overlay for sidebar -->
-    <div class="overlay" id="overlay"></div>
+<footer class="footer">
+LEARNING YOUR WORDS GIVES LIGHT; AND IMPARTS UNDERSTANDING TO THE HUMBLE. PSALMS 119:130<br><br>
+    wilben.india@gmail.com<br><br>
+BANGALORE, INDIA
+</footer>
 
-    <script src="script.js"></script>
+<script>
+
+/* =========================
+   SIDEBAR TOGGLE
+========================= */
+
+const menuToggle =
+document.getElementById("menuToggle");
+
+const sidebar =
+document.getElementById("sidebar");
+
+const overlay =
+document.getElementById("overlay");
+
+menuToggle.addEventListener("click",()=>{
+
+    sidebar.classList.toggle("show");
+    overlay.classList.toggle("show");
+
+});
+
+overlay.addEventListener("click",()=>{
+
+    sidebar.classList.remove("show");
+    overlay.classList.remove("show");
+
+});
+
+/* =========================
+   MOBILE SCROLL TO HIDE HEADER
+========================= */
+let lastScrollY = window.scrollY;
+const topHeader = document.getElementById("topHeader");
+
+window.addEventListener("scroll", () => {
+    // Check if the current viewport width is mobile (under 900px)
+    if (window.innerWidth <= 900) {
+        if (window.scrollY > lastScrollY && window.scrollY > 70) {
+            // Scrolling Down - hide header
+            topHeader.classList.add("hide-header");
+        } else {
+            // Scrolling Up - show header
+            topHeader.classList.remove("hide-header");
+        }
+    } else {
+        // Fallback for desktop view to avoid unexpected layout state transitions
+        topHeader.classList.remove("hide-header");
+    }
+    lastScrollY = window.scrollY;
+});
+
+/* =========================
+   COLLAPSIBLE SIDEBAR MENUS
+========================= */
+
+const sidebarBtns = document.querySelectorAll(".sidebar-btn"); 
+sidebarBtns.forEach(btn=>{ 
+    btn.addEventListener("click",()=>{ 
+        const submenu = btn.nextElementSibling; 
+        const arrow = btn.querySelector(".arrow");
+        const isOpen = submenu.style.display==="block"; 
+         
+        // Reset all submenus and arrows
+        document.querySelectorAll(".sidebar-submenu").forEach(menu=>{ 
+            menu.style.display="none"; 
+        }); 
+        document.querySelectorAll(".arrow").forEach(arr=>{ 
+            arr.classList.remove("rotate"); 
+        }); 
+
+        // Toggle active menu
+        if(!isOpen){ 
+            submenu.style.display="block"; 
+            if(arrow) arrow.classList.add("rotate");
+        } 
+    }); 
+});
+
+/* =========================
+   IMAGE CAROUSEL
+========================= */
+
+const slides =
+document.querySelectorAll('.carousel-slide');
+
+let currentSlide = 0;
+
+function showSlide(index){
+
+    slides.forEach(slide=>{
+        slide.classList.remove('active');
+    });
+
+    slides[index].classList.add('active');
+}
+
+document.querySelector('.next')
+.addEventListener('click',()=>{
+
+    currentSlide =
+    (currentSlide + 1) % slides.length;
+
+    showSlide(currentSlide);
+});
+
+document.querySelector('.prev')
+.addEventListener('click',()=>{
+
+    currentSlide =
+    (currentSlide - 1 + slides.length)
+    % slides.length;
+
+    showSlide(currentSlide);
+});
+
+setInterval(()=>{
+
+    currentSlide =
+    (currentSlide + 1) % slides.length;
+
+    showSlide(currentSlide);
+
+},5000);
+
+</script>
+
 </body>
 </html>
