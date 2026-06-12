@@ -1,0 +1,397 @@
+<!-- ============================
+  MENORA: Playlist → Modal Picker
+  Place this on your HOME PAGE
+=============================== -->
+
+
+
+<style>
+  /* widget container to avoid style bleed */
+  #menoraWidget { font-family: "Trebuchet MS", Arial, sans-serif; color: #222; max-width:900px; margin:1px auto; padding:2px; }
+
+  /* player box */
+  #menoraPlayerWrap { background:#fff; border-radius:2px; overflow:hidden; box-shadow:0 4px 18px rgba(0,0,0,0.08); }
+
+  iframe#menoraPlayer { width:100%; height:360px; border:0; display:block; }
+
+  /* selects */
+  .menora-select { width:100%; max-width:900px; box-sizing:border-box; padding:10px; margin-top:8px; border-radius:2px; border:0px solid #cfcfcf; background:#fff; font-size:16px; color:#111; }
+
+  /* Modal background */
+  #menoraModalBg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:99999; align-items:center; justify-content:center; padding:18px; }
+
+  /* Modal box */
+  #menoraModalBox { width:100%; max-width:720px; background:#fff; border-radius:2px; box-shadow:0 12px 40px rgba(0,0,0,0.35); overflow:hidden; }
+
+  #menoraModalHeader { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #eee; background:linear-gradient(90deg,#f7f7f7,#fff); }
+  #menoraModalHeader h3 { margin:0; font-size:1rem; color:#00643c; letter-spacing:0.6px; }
+
+  #menoraModalClose { background:none; border:0; font-size:20px; cursor:pointer; color:#666; }
+
+  #menoraModalList { max-height:80vh; overflow:auto; padding:8px 12px; }
+  .menoraVideoCard { padding:12px 10px; border-bottom:1px solid #e6e6e6; display:flex; gap:12px; align-items:center; cursor:pointer; }
+  .menoraVideoThumb { width:110px; min-width:110px; height:62px; background:#ddd; border-radius:2px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .menoraVideoInfo { flex:1; font-size:0.95em; color:#111; }
+  .menoraVideoTitle { margin:0 0 4px 0; font-weight:600; font-size:0.95em; color:#222; }
+  .menoraVideoMeta { font-size:0.82em; color:#666; }
+
+  .menoraVideoCard:hover { background:#fafafa; }
+
+  @media (max-width:520px) {
+    iframe#menoraPlayer { height:315px; }
+    .menoraVideoThumb { width:96px; height:56px; min-width:96px; }
+  }
+</style>
+
+
+
+<div id="menoraWidget">
+  <div id="menoraPlayerWrap">
+    <iframe id="menoraPlayer" src="https://www.youtube.com/embed/placeholder" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <select id="menoraChannelSelect" class="menora-select" aria-label="Select channel">
+    <option value="" />— SELECT CHANNEL —
+  </select>
+
+  <select id="menoraPlaylistSelect" class="menora-select" aria-label="Select playlist" disabled>
+    <option value="" />— SELECT PLAYLIST —
+  </select>
+</div>
+
+<div id="menoraModalBg" role="dialog" aria-modal="true">
+  <div id="menoraModalBox" role="document">
+    <div id="menoraModalHeader">
+      <h3>SELECT A VIDEO</h3>
+      <button id="menoraModalClose" aria-label="Close">✖</button>
+    </div>
+
+    <div id="menoraModalList">
+      <div style="padding:14px; text-align:center; color:#777;">Loading videos…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_KEY = "AIzaSyCcGNIatr1K4moIYau-R9oLGSM8DHAJDYo";
+
+/* =========================
+   CHANNEL / PLAYLIST DATA
+========================= */
+const channels = {
+
+"MILLENNIUM_POST": {
+    name: "MILLENNIUM POST",
+    channelId: "UCfG1dIa7FGkYnO1ae-SYZ7A",
+    playlists: {
+"Sunday Sermons": "PLd1uYjaXu5Dz-lpHPV20CKhWOORNLXjQr",
+"Journey of Christ English 2023": "PLd1uYjaXu5Dw6Sr7DOL5BdrxEUVyCpwfo",
+      "Apostle Paul": "PLd1uYjaXu5DwG25OCbzg47m4kOj8dP6M_",
+      "Apostles of Christ": "PLd1uYjaXu5DzgUGeLI2LeTVDMYNauIpMB",
+      "Journey of Christ S1": "PLd1uYjaXu5DzOTMu1eWGVGt3nm_RgWSU7",
+      "Journey of Christ S2": "PLd1uYjaXu5DzyAXEnFV9NKY2i-ZdJ3diP",
+      "Journey of Christ S3": "PLd1uYjaXu5DzSbgCmMcCPCte1BR3g5I9r",
+"Journey of Christ S4":  "PLd1uYjaXu5DzJuVIncdahrD9DkUOptTbV",
+
+      "Journey of Christ English 1":
+"PLd1uYjaXu5DzM85uhX8How9wkhtbI_9zm",
+
+      
+      "Character Development": "PLd1uYjaXu5DyEuF5n_l2uh_n54lR-DwXE",
+      "Creation": "PLd1uYjaXu5DxKADVZnupf30dSF56fRvjv",
+      "Melchizedek": "PLd1uYjaXu5DyvTcTCxGsau0dvM7vVN94V",
+      "The Plan of God": "PLd1uYjaXu5Dwt9PndlwBVeuAYFCg8qcEh",
+      "Bible Q & A": "PLd1uYjaXu5Dx_XgoW6tcfIADO0aMo-VWM",
+      "Intermediate": "PLd1uYjaXu5DwRK6lFvY-Rr0nnSd2U3dcf"
+    }
+  },
+
+"BRO CHANDRAN KOTAGIRI": {
+      name: "BRO CHANDRAN KOTAGIRI",
+      playlists: {
+"General Audio Subjects": "PLmIWGJrra13VfGSMLA9Qkl_YKIedds_R2",
+        "Bible Study": "PLmIWGJrra13WGq16uBpOXA3mR-tkJxOLG",
+        "General Subjects": "PLmIWGJrra13VGO5-EInksZZeBSql2_lfm",
+        "Parables": "PLmIWGJrra13U9SuJGfydQsPt2AONLUpJE",
+        "Passover Subjects": "PLmIWGJrra13U2CWlLU2C_097W-ieFAEUc",
+        
+        "Hebrew Study": "PLmIWGJrra13W32HzX2Xhp4Trx34r7xjvk",
+        "Bible Characters": "PLmIWGJrra13Xxnbv2mv2W-wRa84rkGRlS",
+        "David": "PLmIWGJrra13U2x_mv2KwFbw5ucmtdVFfL",
+        "Abraham": "PLmIWGJrra13Vbw7RsTXuQkIJPsDBMDkK3",
+        "Spiritual Thoughts": "PLpBHPCdXk1CvT2nOMibPlqdIqolKl5QFg"
+      }
+    },
+
+"TREASURY OF TRUTH": {
+      name: "TREASURY OF TRUTH",
+	  channelId: "UCfG1dIa7FGkYnO1ae-SYZ7A",
+      playlists: {
+        "Basic Subjects": "PLpBHPCdXk1CsSZ2XfsM-IRjZS8U1MwE4j",
+"Fragments of Truths": "PLpBHPCdXk1Cserrq0fTHlTnCuetmseERL",
+        "Transforming Truths": "PLpBHPCdXk1Cv7vaGKCaZLsRaNcZpEVG7N",
+        "Moral Values of New Creation": "PLpBHPCdXk1CuZTCp7a0NGi2PNS0vgmzY0",
+        "Biblical Characters and Lessons": "PLpBHPCdXk1CuclogUHHEEJyTHNPtxV0_F",
+        "Tabernacle": "PLpBHPCdXk1Csve9Noih6fBJxC1hW5-b6-",
+        "Insight Truths of God's Plan": "PLpBHPCdXk1Cvz6qrACsSTq5NX4x_syCGw",
+        "Prophecies": "PLpBHPCdXk1CvaT7-58nwPmGqqUSgEDeRi",
+        "Living Sacrifice": "PLpBHPCdXk1CuZKpx7Xfgjw8yw2nxk6Thl",
+        "Memorial Subjects": "PLpBHPCdXk1Cut8L_Lk0xpEhMLCztUlTaM",
+        "Big Lessons from Small Books": "PLpBHPCdXk1Cv7dZ4h5OTRzNkZKBw_WooC",
+        "Song of Songs": "PLpBHPCdXk1CsKGYtRRtQRfEK1xOsqGjbL",
+        "Next Level Truths": "PLpBHPCdXk1CuMDE0M70dZD0AgO0ODiABc",
+        "Creatures and Things": "PLpBHPCdXk1CvtqQ1QZjhbxbaLhcRClrS0",
+        "The Heaven": "PLpBHPCdXk1CtZmxoJPusZ78j4smFhBh0M",
+        "The Fruits of the Spirit": "PLpBHPCdXk1CsecW8CQRUqBgiHABp60Eh_",
+        "Moral Values": "PLpBHPCdXk1CuZTCp7a0NGi2PNS0vgmzY0",
+        "Subtle Truths": "PLpBHPCdXk1CtjQJccV8z0oaQFSgs9qeST",
+        "Spiritual Thoughts": "PLpBHPCdXk1CvT2nOMibPlqdIqolKl5QFg"
+      }
+    },
+
+
+    
+    
+    "CHENNAI - STUDENTS": {
+      name: "CHENNAI - STUDENTS",
+      playlists: {
+        "Basic Study": "PLbEGI-xzV52rQ5R6EzELXSSVILGXRIufY",
+        "Prophecy": "PLbEGI-xzV52oPnWS4p1sm2D2_tuDTmwQU",
+        "Miracles of Eliza": "PLbEGI-xzV52rFPOdZACoLVrtYt40NbKQH",
+        "God's Plan in Abrahams Life": "PLbEGI-xzV52qtWJ7mmmTQYE1vWqnr6u2o",
+        "Revelation Study": "PLbEGI-xzV52pKbezT2tYbHKN1yYyj09bC",
+        "Satan": "PLbEGI-xzV52oJj43_tQR81Wrli807txtq"
+        
+      }
+    }
+
+};
+
+/* DOM refs */
+const channelSelect = document.getElementById('menoraChannelSelect');
+const playlistSelect = document.getElementById('menoraPlaylistSelect');
+const playerFrame = document.getElementById('menoraPlayer');
+const modalBg = document.getElementById('menoraModalBg');
+const modalList = document.getElementById('menoraModalList');
+const modalClose = document.getElementById('menoraModalClose');
+
+/* Hide widget on non-homepage */
+(function guardHomepage() {
+  const path = window.location.pathname || '/';
+  if (!(path === '/' || path.endsWith('/index.html'))) {
+    document.getElementById('menoraWidget').style.display = 'none';
+  }
+})();
+
+/* Populate channel select */
+(function populateChannels() {
+  for (const key in channels) {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = channels[key].name;
+    channelSelect.appendChild(opt);
+  }
+})();
+
+/* Channel change → load playlists */
+channelSelect.addEventListener('change', () => {
+  const key = channelSelect.value;
+  playlistSelect.innerHTML = '<option value="">— SELECT PLAYLIST —</option>';
+  playlistSelect.disabled = true;
+  if (!key) return;
+
+  const pls = channels[key].playlists;
+  for (const name in pls) {
+    const o = document.createElement('option');
+    o.value = pls[name];
+    o.textContent = name;
+    playlistSelect.appendChild(o);
+  }
+  playlistSelect.disabled = false;
+});
+
+/* Playlist change → fetch ALL videos using API v3 */
+/* Playlist change → fetch ALL videos using API v3 */
+playlistSelect.addEventListener('change', async () => {
+
+  const playlistId = playlistSelect.value;
+  if (!playlistId) return;
+
+  openModal();
+
+  modalList.innerHTML =
+    '<div style="padding:14px; text-align:center; color:#777;">Loading videos…</div>';
+
+  try {
+
+    let allItems = [];
+    let pageToken = "";
+
+    do {
+
+      const apiUrl =
+        `https://www.googleapis.com/youtube/v3/playlistItems` +
+        `?part=snippet` +
+        `&playlistId=${playlistId}` +
+        `&maxResults=50` +
+        (pageToken ? `&pageToken=${pageToken}` : '') +
+        `&key=${API_KEY}`;
+
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+
+      if (data.items) {
+        allItems.push(...data.items);
+      }
+
+      pageToken = data.nextPageToken || "";
+
+    } while (pageToken);
+
+    document.querySelector('#menoraModalHeader h3')
+      .textContent =
+      `SELECT A VIDEO (${allItems.length} Videos)`;
+
+    if (allItems.length === 0) {
+
+      modalList.innerHTML =
+        '<div style="padding:20px; text-align:center; color:#777;">No videos found in this playlist.</div>';
+
+      return;
+    }
+
+    modalList.innerHTML = '';
+
+    allItems.forEach(item => {
+
+      if (
+        !item.snippet ||
+        !item.snippet.resourceId ||
+        !item.snippet.resourceId.videoId
+      ) return;
+
+      const vid = item.snippet.resourceId.videoId;
+      const title = item.snippet.title;
+
+      const thumb =
+        item.snippet.thumbnails?.medium?.url ||
+        item.snippet.thumbnails?.default?.url ||
+        '';
+
+      const published = item.snippet.publishedAt;
+
+      const card = document.createElement('div');
+      card.className = 'menoraVideoCard';
+
+      const thumbDiv = document.createElement('div');
+      thumbDiv.className = 'menoraVideoThumb';
+
+      const img = document.createElement('img');
+      img.src = thumb;
+      img.alt = title;
+      img.loading = 'lazy';
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+
+      thumbDiv.appendChild(img);
+
+      const info = document.createElement('div');
+      info.className = 'menoraVideoInfo';
+
+      const t = document.createElement('p');
+      t.className = 'menoraVideoTitle';
+      t.textContent = title;
+
+      const meta = document.createElement('div');
+      meta.className = 'menoraVideoMeta';
+      meta.textContent =
+        new Date(published).toLocaleDateString();
+
+      info.appendChild(t);
+      info.appendChild(meta);
+
+      card.appendChild(thumbDiv);
+      card.appendChild(info);
+
+      card.addEventListener('click', () => {
+        playInPlayer(vid);
+        closeModal();
+      });
+
+      modalList.appendChild(card);
+
+    });
+
+  } catch (e) {
+
+    console.error(e);
+
+    modalList.innerHTML =
+      '<div style="padding:18px; text-align:center; color:#900;">⚠️ Failed to load videos.</div>';
+
+  }
+
+});
+
+/* Modal controls */
+function openModal() {
+  modalBg.style.display = 'flex';
+  modalBg.style.opacity = '0';
+  setTimeout(() => modalBg.style.opacity = '1', 10);
+}
+
+function closeModal() {
+
+  modalBg.style.opacity = '0';
+
+  setTimeout(() => {
+
+    modalBg.style.display = 'none';
+
+    document.querySelector('#menoraModalHeader h3')
+      .textContent = 'SELECT A VIDEO';
+
+  }, 200);
+
+}
+
+modalClose.addEventListener('click', closeModal);
+modalBg.addEventListener('click', e => {
+  if (e.target === modalBg) closeModal();
+});
+
+/* Play in main iframe */
+function playInPlayer(videoId) {
+  playerFrame.src = `https://www.youtube.com/embed/${videoId}?rel=0`;
+  window.scrollTo({
+    top: document.getElementById('menoraPlayerWrap').offsetTop - 10,
+    behavior: 'smooth'
+  });
+}
+
+/* =========================
+   AUTO-LOAD FIRST VIDEO (API V3)
+========================= */
+(async function loadFirstVideo() {
+  try {
+    const firstChannelKey = Object.keys(channels)[0];
+    const firstChannel = channels[firstChannelKey];
+    const firstPlaylistId = Object.values(firstChannel.playlists)[0];
+
+    const apiUrl =
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${firstPlaylistId}&maxResults=1&key=${API_KEY}`;
+
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+
+    if (data.items && data.items.length > 0) {
+      const latestVideoId = data.items[0].snippet.resourceId.videoId;
+      playerFrame.src =
+        `https://www.youtube.com/embed/${latestVideoId}?rel=0`;
+    }
+  } catch (err) {
+    console.warn("Auto-load failed:", err);
+  }
+})();
+</script>
