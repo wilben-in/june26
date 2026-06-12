@@ -389,6 +389,32 @@ body{
     margin-bottom:12px;
 }
 
+	/*youtube playlist selector CSS. delete if not necessaary*/
+	/* The container controls the width and shape of the content box */
+.playlist-container {
+    width: 100%;
+    max-width: 800px; /* Adjust this to fit your homepage design */
+    margin: 0 auto;   /* Centers the box on the page */
+    
+    /* This trick maintains a standard 16:9 video widescreen aspect ratio */
+    position: relative;
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+}
+
+/* This forces the iframe to perfectly fill the container box */
+.playlist-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px; /* Optional: gives the widget nice rounded corners */
+}
+	/*End of youtube playlist selector css. */
+
 /* =========================
    FOOTER
 ========================= */
